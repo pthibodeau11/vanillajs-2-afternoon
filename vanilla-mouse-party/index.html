@@ -58,6 +58,64 @@
 </body>
 
 <script>
+    let mousePosition = {x: 0, y: 0};
+    let drawId; // keep track of when dots should be on or off the screen
+    function getRandomNumber(min, max) {
+        return Math.round(Math.random() * (max - min + 1)) + min;
+      }; // this function takes in a min and max # and returns a random # between them
+
+    window.addEventListener('mousemove', function(e) {
+        mousePosition.x = e.pageX;
+        mousePosition.y = e.pageY;
+    });
+
+    function draw(){
+
+//setInterval is a function that accepts 2 arguments... a callback and interval        
+        return setInterval(function(){ 
+ 
+ // the below will put all of our dots in a 'container'
+            const container = document.getElementById('wrap');
+
+//this code will stylize our dots
+            const color = `background:rgb(${getRandomNumber( 
+            0,
+            255
+          )},${getRandomNumber(0, 255)}, ${getRandomNumber(0, 255)});`; 
+          const ballSize = getRandomNumber(10, 30);
+          const size = `height:${ballSize}px; width:${ballSize}px;`;
+          const left = `left:${getRandomNumber(
+            mousePosition.x - ballSize,
+            mousePosition.x
+          )}px;`;
+          const top = `top:${getRandomNumber(
+            mousePosition.y - ballSize,
+            mousePosition.y
+          )}px; `;
+          const style = `${left}${top}${color}${size}`;
+
+// this will add the dots and apply the styles each time callback is executed
+          const ball = document.createElement('div'); 
+          ball.classList.add('ball') 
+          ball.style = style
+
+// add new 'ball' element to our 'container' element and remove it once it's annimation is over
+            ball.addEventListener('animateionend', function(e){
+                e.target.remove();
+            });
+            
+            container.appendChild(ball);
+        }, 50)
+    };
+
+// this will start our interval by creating event listener for mouse to move into browser window
+    window.addEventListener('mouseover', function(){
+        const drawId = draw();
+    });
+
+    window.addEventListener('mouseout', function(){
+        clearInterval('drawid');
+    });    
 
 </script>
 
