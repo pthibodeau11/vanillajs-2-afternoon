@@ -165,6 +165,26 @@
 </body>
 
 <script>
+// declared new event listener. This will listen for any 'keypress' that occurs on the page.
+// so we need to attach event listener to the page.
+    window.addEventListener('keypress', function(keyPressEvent){
+
+// the below will get access to the visual key that was pressed (unique polygon) and it's associated audio tag. 
+// note... they share a unique 'data-key' attribute
+        const tone = document.querySelector(`audio[data-key="${keyPressEvent.keyCode}"]`);
+        if (!tone) return;
+        const pianoKey = document.querySelector(`.pianoKey[data-key="${keyPressEvent.keyCode}"]`);
+        tone.currentTime = 0;
+        pianoKey.classList.add('pressed');
+        tone.play();
+
+// below will remove pressed class from the piano element
+        setTimeout(function() {
+            pianoKey.classList.remove("pressed");
+        }, 300);
+    });
+
+
 </script>
 
 </html>
